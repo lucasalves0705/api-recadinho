@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use function PHPUnit\Framework\isNull;
 
-class UserController
+class UserController extends Controller
 {
     public function index(){
         $users = User::all()->sortBy('name');
@@ -38,7 +37,7 @@ class UserController
     public function store(Request $request, int $userId = null){
 
         $data = $request->all();
-        $validator = $this->validate($data, $userId);
+        $validator = $this->validateData($data, $userId);
 
         if ($validator->fails()) {
             return response()->json([
@@ -65,7 +64,7 @@ class UserController
 
         return response()->json([
             'success' => true,
-            'message' => $user
+            'user' => $user
         ]);
     }
 
@@ -88,11 +87,13 @@ class UserController
         ]);
     }
 
-    protected function validate(array $data, int $userId = null){
+    protected function validateData(array $data, int $userId = null){
 
         $nameUnique = Rule::unique('users', 'name');
+        $emailUnique = Rule::unique('users', 'email');
         if (!is_null($userId)) {
             $nameUnique->ignore($userId);
+            $emailUnique->ignore($userId);
         }
 
         $requiredIf = Rule::requiredIf( function () use ($data) {
@@ -108,7 +109,7 @@ class UserController
                     'max:30'
                 ],
                 'email' => [
-                    Rule::unique('users', 'email'),
+                    $emailUnique,
                     $requiredIf
                 ],
                 'password' => [
