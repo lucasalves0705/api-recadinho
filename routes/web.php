@@ -13,6 +13,25 @@
 |
 */
 
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
+//Route::resourceVerbs([
+//    'create' => 'novo',
+//    'edit' => 'alterar'
+//]);
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'usuarios'], function () use ($router){
+
+    $router->get('/', 'UserController@index');
+    $router->post('/novo', 'UserController@store');
+    $router->get('/{userId}/mostrar', 'UserController@show');
+    $router->post('/{userId}/alterar', 'UserController@store');
+    $router->delete('{userId}/remover', 'UserController@destroy');
+
+});
+
