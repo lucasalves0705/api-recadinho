@@ -37,3 +37,9 @@ $router->group(['prefix' => 'shows'], function () use ($router){
 
 });
 
+$router->group(['prefix' => 'likes'], function () use ($router) {
+
+    $router->get('/{muralId}/post', 'LikeOfMuralController@showByPostMural');
+    $router->post('/novo', 'LikeOfMuralController@store');
+});
+

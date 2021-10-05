@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMuralTable extends Migration
+class CreateLikeOfMuralTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateMuralTable extends Migration
      */
     public function up()
     {
-        Schema::create('mural', function (Blueprint $table) {
+        Schema::create('likes_of_murals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->string('message');
+            $table->foreignId('mural_id')->constrained('mural');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateMuralTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mural');
+        Schema::dropIfExists('like_of_mural');
     }
 }
