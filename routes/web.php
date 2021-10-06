@@ -43,3 +43,10 @@ $router->group(['prefix' => 'likes'], function () use ($router) {
     $router->post('/novo', 'LikeOfMuralController@store');
 });
 
+$router->group(['prefix' => 'mural'], function () use ($router) {
+
+    $router->get('/', 'MuralController@index');
+    $router->post('/novo', 'MuralController@store');
+
+});
+

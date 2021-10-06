@@ -98,7 +98,8 @@ class ShowController extends Controller
             ],
             [
                 'user_id.required' => 'O campo artista é obrigatório',
-                'bio.required' => 'O campo descrição é obrigatório'
+                'bio.required' => 'O campo descrição é obrigatório',
+                'bio.max' => 'Tamanho da descrição é muito extenso'
             ]
         );
     }
