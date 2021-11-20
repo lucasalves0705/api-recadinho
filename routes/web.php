@@ -50,3 +50,8 @@ $router->group(['prefix' => 'mural'], function () use ($router) {
 
 });
 
+$router->group(['prefix' => 'musicas-do-show'], function () use ($router){
+    $router->get('/{showId}', 'ShowSongController@index');
+    $router->post('/novo', 'ShowSongController@store');
+});
+

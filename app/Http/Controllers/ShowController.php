@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Show;
+use App\Models\ShowSong;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -72,7 +73,16 @@ class ShowController extends Controller
         if (is_null($show)){
             return response([
                 'success' => false,
-                'message' => 'Show não encontrado'
+                'message' => 'Show não encontrado.'
+            ]);
+        }
+
+        $songsShow = ShowSong::query()->where('show_id', $showId)->first();
+
+        if (!is_null($songsShow)){
+            return response([
+                'success' => false,
+                'message' => 'Ja existe musicas vinculadas ao show.'
             ]);
         }
 

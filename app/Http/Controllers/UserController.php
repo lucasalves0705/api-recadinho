@@ -31,7 +31,6 @@ class UserController extends Controller
 
         DB::enableQueryLog();
         $messages = $user->messages()->get();
-        dd($messages, DB::getQueryLog());
 
         return response([
             'success' => true,
@@ -92,7 +91,8 @@ class UserController extends Controller
         ]);
     }
 
-    protected function validateData(array $data, int $userId = null){
+    protected function validateData(array $data, int $userId = null)
+    {
 
         $nameUnique = Rule::unique('users', 'name');
         $emailUnique = Rule::unique('users', 'email');
