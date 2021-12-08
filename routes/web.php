@@ -17,6 +17,12 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->group(['prefix' => 'login'], function () use ($router){
+
+    $router->post('/login-vip', 'LoginController@loginUserVip');
+
+});
+
 $router->group(['prefix' => 'usuarios'], function () use ($router){
 
     $router->get('/', 'UserController@index');
