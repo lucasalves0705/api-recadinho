@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Show;
 use App\Models\ShowSong;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,7 +59,18 @@ class ShowController extends Controller
             }
         }
 
-        $show->fill($data)->save();
+        $user = User::query()->where(['email' => $request->email, 'type_of_user_id' => 2])->first();
+
+        if(is_null($user)){
+            return response()->json([
+                'success' => false,
+                'message' => "Artista não encontrado"
+            ]);
+        }
+
+        $show->user_id = $user->id;
+        $show->bio = $request->bio;
+        $show->save();
 
         return response()->json([
             'success' => true,
@@ -98,7 +110,7 @@ class ShowController extends Controller
         return Validator::make(
             $data,
             [
-                'user_id' => [
+                'email' => [
                     'required'
                 ],
                 'bio' => [
@@ -107,7 +119,7 @@ class ShowController extends Controller
                 ]
             ],
             [
-                'user_id.required' => 'O campo artista é obrigatório',
+                'email.required' => 'O campo artista é obrigatório',
                 'bio.required' => 'O campo descrição é obrigatório',
                 'bio.max' => 'Tamanho da descrição é muito extenso'
             ]
